@@ -33,10 +33,10 @@ Copy `.streamlit/secrets.toml.example` to `.streamlit/secrets.toml` and fill in
 your `client_id` and `tenant_id`.
 
 ### 3. Install and run
-\```bash
+```bash
 uv sync
 uv run streamlit run app.py
-\```
+```
 
 ## CSV format
 Required: `To` or `email` column (case-insensitive). Optional: `CC`, `BCC`,
