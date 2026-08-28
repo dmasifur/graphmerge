@@ -8,3 +8,10 @@ wheels/
 
 # Virtual environments
 .venv
+.streamlit/secrets.toml
+*.csv
+.DS_Store
+.graphmerge_logs/
+.mypy_cache/
+.ruff_cache/
+.pytest_cache/
