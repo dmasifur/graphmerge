@@ -6,7 +6,6 @@ from typing import Any, cast
 import pandas as pd
 import requests
 import streamlit as st
-from streamlit.components.v1 import html
 
 from campaign_log import CampaignLogEntry, append_entries, clear_log, csv_hash, sent_row_indices
 from mailer import (
@@ -100,7 +99,7 @@ if "to" not in col_map and "email" not in col_map:
     st.stop()
 
 st.write(f"**{len(df)} recipients loaded.** Preview:")
-st.dataframe(df.head(3), use_container_width=True)
+st.dataframe(df.head(3), width="stretch")
 
 template_filename = html_template_file.name
 raw_template = load_template(template_filename, html_template_file.getvalue())
@@ -132,7 +131,8 @@ with st.expander("👁️ Preview first recipient's email"):
     first_row: dict[str, Any] = {str(k): v for k, v in df.iloc[0].to_dict().items()}
     try:
         st.markdown(f"**Subject:** {render_text(email_subject, first_row)}")
-        html(render_row(raw_template, first_row), height=300, scrolling=True)
+        with st.container(height=300, border=True):
+            st.html(render_row(raw_template, first_row))
     except Exception as exc:
         st.warning(f"Couldn't render preview — check your template placeholders. ({exc})")
 
@@ -235,7 +235,7 @@ if st.button(
         )
 
     log_df = pd.DataFrame([r.__dict__ for r in results])
-    st.dataframe(log_df, use_container_width=True)
+    st.dataframe(log_df, width="stretch")
     st.download_button(
         "⬇️ Download send log (CSV)",
         log_df.to_csv(index=False).encode("utf-8"),
